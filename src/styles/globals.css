@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color-scheme: dark;
+  color: #fff;
+  background-color: #101013;
+}
+
+input::placeholder {
+  color: #fff;
+}
+
+.primary-btn {
+  @apply bg-[#202028]/20 border border-[#4a4a4a]/10 hover:bg-[#4a4a4a]/20 hover:border-[#4a4a4a]/10 text-xs text-opacity-80 rounded-lg flex items-center shadow-lg px-4 py-2 transition-all text-[#707070];
+}
