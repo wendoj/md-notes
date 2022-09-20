@@ -2,14 +2,22 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+    referentialIntegrity = "prisma"
 }
 
-model Example {
-    id String @id @default(cuid())
+model Note {
+    id        Int      @id @default(autoincrement())
+    title     String    @db.VarChar(50)
+    content   String    @db.LongText
+    password  String?  @db.VarChar(50)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

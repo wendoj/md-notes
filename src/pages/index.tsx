@@ -7,7 +7,7 @@ import Image from "next/image";
 
 type Inputs = {
   title: string;
-  text: string;
+  content: string;
   password: string | null;
 };
 
@@ -16,7 +16,20 @@ const Home: NextPage = () => {
   const [isSubmitting, setSubmitting] = useState(false);
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setSubmitting(true);
-    console.log(data);
+
+    /* Send a POST request to the API */
+    fetch("/api/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSubmitting(false);
+        console.log(data);
+      });
   };
 
   return (
@@ -30,12 +43,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col">
+      <main className="flex flex-col bg-[#101013]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <header className="items-center flex flex-row justify-between p-4 border-b border-white/10">
+          <header className="items-center flex flex-row justify-between p-4">
             {/* Title */}
             <input
-              id="title"
               type="text"
               placeholder="md-notes"
               className="w-auto bg-transparent font-medium focus:outline-none"
@@ -44,7 +56,7 @@ const Home: NextPage = () => {
               {...register("title", { required: true })}
             />
 
-            <div className="ml-2 flex flex-row space-x-2">
+            <div className="pr-[1vw] sm:pr-0 flex flex-row space-x-2">
               <button className="primary-btn">
                 <RiLockPasswordFill className="inline-block" />
                 <span className="ml-2">password</span>
@@ -62,7 +74,7 @@ const Home: NextPage = () => {
                     height={15}
                   />
                 ) : (
-                  <div>
+                  <div className="flex flex-row items-center">
                     <RiSaveFill className="inline-block" />
                     <span className="ml-2">save</span>
                   </div>
@@ -70,12 +82,14 @@ const Home: NextPage = () => {
               </button>
             </div>
           </header>
+
+          <hr className="border-[0.5] border-neutral-800" />
+
           <textarea
             required
-            id="text"
             placeholder="Enter your notes here..."
-            className="min-w-full p-4 bg-[#101013] focus:outline-none text-white/70 "
-            {...register("text", { required: true })}
+            className="min-h-[92.14vh] min-w-full p-4 bg-[#101013] focus:outline-none text-white/70 "
+            {...register("content", { required: true })}
           />
         </form>
       </main>
