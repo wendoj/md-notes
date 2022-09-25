@@ -1,4 +1,4 @@
-import { getNotes, getNote } from "../lib/notes";
+import { getNote } from "../lib/notes";
 import { remark } from "remark";
 import html from "remark-html";
 import matter from "gray-matter";
@@ -114,19 +114,18 @@ export default function NotePage({ note, content, hasPassword }: Props) {
   }
 }
 
-export async function getStaticPaths() {
-  const notes = await getNotes();
+export async function getServerSideProps({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const res = await getNote(params.id);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const paths = notes.map((note) => ({
-    params: { id: note.id.toString() },
-  }));
+  if (res.message === "Note not found") {
+    return { notFound: true };
+  }
 
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }: { params: { id: string } }) {
-  const res = await getNote(params.id);
   const note = JSON.parse(JSON.stringify(await res));
 
   const matterResult = matter(note.content);
