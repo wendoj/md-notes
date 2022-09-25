@@ -8,6 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Head from "next/head";
 
 type Props = {
   note: {
@@ -106,6 +107,9 @@ export default function NotePage({ note, content, hasPassword }: Props) {
   } else {
     return (
       <>
+        <Head>
+          <title>{note.title}</title>
+        </Head>
         <main className="dark:bg-[#101013] max-w-[800px] py-[40px] container-fluid prose-neutral prose dark:prose-invert overflow-x-hidden">
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </main>

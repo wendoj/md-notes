@@ -1,32 +1,27 @@
-# Create T3 App
+# md-notes
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
+An open-source online pastebin for markdown notes that supports password-protected notes. See it in action at [md-notes-bay.vercel.app](https://md-notes-bay.vercel.app/).
 
-## Why are there `.js` files in here?
+Made with [TailwindCSS](https://tailwindcss.com/), [Prisma](https://www.prisma.io/), [PlanetScale](https://planetscale.com/), [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [Vercel](https://vercel.com/), and [TypeScript](https://www.typescriptlang.org/).
 
-As per [T3-Axiom #3](https://github.com/t3-oss/create-t3-app/tree/next#3-typesafety-isnt-optional), we take typesafety as a first class citizen. Unfortunately, not all frameworks and plugins support TypeScript which means some of the configuration files have to be `.js` files.
-
-We try to emphasize that these files are javascript for a reason, by explicitly declaring its type (`cjs` or `mjs`) depending on what's supported by the library it is used by. Also, all the `js` files in this project are still typechecked using a `@ts-check` comment at the top.
-
-## What's next? How do I make an app with this?
-
-We try to keep this project as simple as possible, so you can start with the most basic configuration and then move on to more advanced configuration.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next-Auth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://alpha.trpc.io))
-
-Also checkout these awesome tutorials on `create-t3-app`.
-
-- [Build a Blog With the T3 Stack - tRPC, TypeScript, Next.js, Prisma & Zod](https://www.youtube.com/watch?v=syEWlxVFUrY)
-- [Build a Live Chat Application with the T3 Stack - TypeScript, Tailwind, tRPC](https://www.youtube.com/watch?v=dXRRY37MPuk)
-- [Build a full stack app with create-t3-app](https://www.nexxel.dev/blog/ct3a-guestbook)
-- [A first look at create-t3-app](https://dev.to/ajcwebdev/a-first-look-at-create-t3-app-1i8f)
+![Preview of md-notes](https://i.gyazo.com/1ea33939b42abba6578cb6498301c2d6.png)
+![Password modal](https://i.gyazo.com/3705520ff5bb313d71a30a359600206e.png)
+![Paste preview](https://i.gyazo.com/e4e44f09cb0170072a9db35a66612b2a.png)
+![Password preview](https://i.gyazo.com/5b1f4f5fbc85ae2cf325182acbcf68c3.png)
 
 ## How do I deploy this?
+
+### Initialize the database
+
+1. Create a [PlanetScale](https://planetscale.com/) account.
+2. Create a database.
+3. Copy the connection string.
+4. Copy the `DATABASE_URL` from the `.env.example` file and paste it into a new `.env` file.
+5. Replace the `DATABASE_URL` in the `.env` file with the connection string from step 3.
+6. Run `npx prisma init` to initialize the database.
+7. Run `npx prisma migrate dev` to create the tables from the Prisma schema.
+8. Run `npm run dev` to start the development server.
+9. Go to [http://localhost:3000](http://localhost:3000) to see the app.
 
 ### Vercel
 
@@ -40,7 +35,6 @@ We recommend deploying to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_cam
 - Now whenever you push a change to your repository, Vercel will automatically redeploy your website!
 
 ### Docker
-
 You can also dockerize this stack and deploy a container.
 
 Please note that Next.js requires a different process for buildtime (available in the frontend, prefixed by `NEXT_PUBLIC`) and runtime environment, server-side only, variables. In this demo we are using two variables, `DATABASE_URL` (used by the server) and `NEXT_PUBLIC_CLIENTVAR` (used by the client). Pay attention to their positions in the `Dockerfile`, command-line arguments, and `docker-compose.yml`.
@@ -220,9 +214,3 @@ Here are some useful references you can further look into:
 - [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 - [Docker CLI reference](https://docs.docker.com/engine/reference/commandline/docker/)
 - [Docker Compose CLI reference](https://docs.docker.com/compose/reference/)
-
-## Useful resources
-
-Here are some resources that we commonly refer to:
-
-- [Protecting routes with Next-Auth.js](https://next-auth.js.org/configuration/nextjs#unstable_getserversession)
