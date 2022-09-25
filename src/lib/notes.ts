@@ -8,7 +8,7 @@ async function getNotes() {
   }
 }
 
-async function getNote(id: any) {
+async function getNote(id: string) {
   try {
     const note = await prisma.note.findUnique({
       where: {

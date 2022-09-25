@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { RiLockPasswordFill, RiSaveFill } from "react-icons/ri";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
+import Modal from "../components/Password";
+import toast from "react-hot-toast";
 
 type Inputs = {
   title: string;
@@ -12,6 +14,8 @@ type Inputs = {
 };
 
 const Home: NextPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [password, setPassword] = useState("");
   const { register, handleSubmit } = useForm<Inputs>();
   const [isSubmitting, setSubmitting] = useState(false);
   const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -23,12 +27,29 @@ const Home: NextPage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        title: data.title,
+        content: data.content,
+        password,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         setSubmitting(false);
-        console.log(data);
+        toast.custom((t) => (
+          <div
+            className={`${
+              t.visible ? "animate-enter" : "animate-leave"
+            } p-4 border bg-[#202028]/20 backdrop-blur-xl border-[#4a4a4a]/10 shadow-lg rounded-lg pointer-events-auto flex flex-row items-center`}
+          >
+            <div className="flex flex-row items-center opacity-50">
+              <p className="text-sm">note created</p>
+            </div>
+          </div>
+        ));
+
+        // Redirect to the note
+        window.location.href = `/${data.id}`;
       });
   };
 
@@ -42,6 +63,12 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Modal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        next={(password: string) => setPassword(password)}
+      />
 
       <main className="flex flex-col bg-[#101013]">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,7 +84,11 @@ const Home: NextPage = () => {
             />
 
             <div className="pr-[1vw] sm:pr-0 flex flex-row space-x-2">
-              <button className="primary-btn">
+              <button
+                type="button"
+                className="primary-btn"
+                onClick={() => setIsModalOpen(true)}
+              >
                 <RiLockPasswordFill className="inline-block" />
                 <span className="ml-2">password</span>
               </button>
@@ -88,7 +119,7 @@ const Home: NextPage = () => {
           <textarea
             required
             placeholder="Enter your notes here..."
-            className="min-h-[92.14vh] min-w-full p-4 bg-[#101013] focus:outline-none text-white/70 "
+            className="font-mono min-h-[92.14vh] min-w-full p-4 bg-[#101013] focus:outline-none text-white/70 "
             {...register("content", { required: true })}
           />
         </form>

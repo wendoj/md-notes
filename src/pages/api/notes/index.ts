@@ -27,8 +27,16 @@ async function createNotes(req: NextApiRequest, res: NextApiResponse) {
     if (!title || !content)
       return res.status(400).json({ message: "Missing required fields" });
 
+    // Generate ID and check if ID already exists
+    const id = Math.random().toString(36).substr(2, 10);
+
+    const exists = await prisma.note.findUnique({ where: { id } });
+    if (exists)
+      return res.status(500).json({ message: "Something went wrong" });
+
     const note = await prisma.note.create({
       data: {
+        id,
         title,
         content,
         password,

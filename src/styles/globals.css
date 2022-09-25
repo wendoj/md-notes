@@ -17,14 +17,46 @@ html, body {
     }
 }
 
-input::placeholder {
-    color: #fff;
-}
-
 .primary-btn {
     @apply break-words bg-[#202028]/20 border border-[#4a4a4a]/10 hover:bg-[#4a4a4a]/20 hover:border-[#4a4a4a]/10 text-xs text-opacity-80 rounded-lg flex flex-row items-center shadow-lg px-4 py-2 transition-all text-[#707070];
 }
 
 .container-fluid {
     @apply px-[15px] mx-auto;
+}
+
+.glassmorphism {
+    background: rgba(99, 99, 99, 0.06);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+}
+
+@keyframes enter{
+    0%{
+        transform:scale(.9);
+        opacity:0
+    }
+    to{
+        transform:scale(1);
+        opacity:1
+    }
+}
+
+.animate-enter {
+    animation: enter .2s ease-out;
+}
+
+@keyframes leave {
+    0% {
+        transform: scale(1);
+        opacity: 1
+    }
+    to {
+        transform: scale(.9);
+        opacity: 0
+    }
+}
+
+.animate-leave {
+    animation: leave .15s ease-in forwards;
 }

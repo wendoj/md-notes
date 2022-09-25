@@ -14,10 +14,10 @@ datasource db {
 }
 
 model Note {
-    id        Int      @id @default(autoincrement())
+    id        String    @id
     title     String    @db.VarChar(50)
     content   String    @db.LongText
-    password  String?  @db.VarChar(50)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    password  String?   @db.VarChar(50)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
 }
